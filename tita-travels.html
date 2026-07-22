@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tita Travels — PNW guides from your favourite auntie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine:#1B3B2F;
+    --pine-dark:#0F251D;
+    --parchment:#F7F1E3;
+    --parchment-2:#EEE4CD;
+    --moss:#6E8F63;
+    --moss-dark:#496145;
+    --honey:#D6A24A;
+    --honey-dark:#9C6F26;
+    --rosewood:#B5615A;
+    --rosewood-dark:#7C3F3A;
+    --ink:#26201A;
+    --ink-soft:#5A5045;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'Space Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;line-height:1.1;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--moss-dark);
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:15px;
+    padding:13px 24px;
+    border-radius:100px;
+    border:1.5px solid var(--ink);
+    text-decoration:none;
+    cursor:pointer;
+    background:none;
+    transition:transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-dark{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
+  .btn-dark:hover{background:var(--pine-dark);}
+  .btn-honey{background:var(--honey);color:var(--pine-dark);border-color:var(--honey);}
+  .btn-honey:hover{background:var(--honey-dark);color:var(--parchment);}
+  .btn-ghost{border-color:rgba(247,241,227,0.5);color:var(--parchment);}
+  .btn-ghost:hover{background:rgba(247,241,227,0.12);}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,241,227,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(38,32,26,0.1);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1140px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+  .brand span{font-family:var(--font-display);font-size:20px;font-weight:600;}
+  .nav-links{display:flex;gap:28px;font-size:14px;font-weight:500;}
+  .nav-links a{text-decoration:none;opacity:0.8;}
+  .nav-links a:hover{opacity:1;}
+  @media (max-width:760px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    background:var(--pine);
+    color:var(--parchment);
+    padding:64px 0 0;
+    overflow:hidden;
+  }
+  .hero-grid{
+    max-width:1140px;margin:0 auto;padding:0 32px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;
+  }
+  @media (max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  .stamp{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;
+    border:1.5px dashed rgba(247,241,227,0.5);
+    border-radius:100px;padding:6px 14px;margin-bottom:22px;color:var(--parchment);opacity:0.85;
+  }
+  .hero h1{font-size:clamp(34px,5vw,54px);margin-bottom:20px;}
+  .hero h1 em{font-style:italic;color:var(--honey);}
+  .hero p.lead{font-size:17px;color:rgba(247,241,227,0.82);max-width:460px;margin-bottom:32px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;}
+  .hero-stats{display:flex;gap:36px;padding:24px 0;border-top:1px solid rgba(247,241,227,0.15);flex-wrap:wrap;}
+  .hero-stats div{font-family:var(--font-display);font-size:26px;font-weight:600;}
+  .hero-stats span{display:block;font-family:var(--font-body);font-size:12px;color:rgba(247,241,227,0.65);font-weight:400;margin-top:2px;}
+
+  .map-panel{position:relative;height:420px;}
+  .map-panel svg{width:100%;height:100%;}
+  .route-dash{stroke-dasharray:6 8;animation:dashmove 22s linear infinite;}
+  @keyframes dashmove{to{stroke-dashoffset:-280;}}
+  .hedgehog-walk{animation:hop 1.8s ease-in-out infinite;}
+  @keyframes hop{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
+  @media (prefers-reduced-motion: reduce){.route-dash,.hedgehog-walk{animation:none;}}
+
+  /* SECTION generic */
+  section{padding:88px 0;}
+  .section-head{max-width:640px;margin:0 auto 48px;text-align:center;}
+  .section-head h2{font-size:clamp(26px,4vw,36px);margin-top:10px;}
+  .section-head p{color:var(--ink-soft);margin-top:14px;font-size:16px;}
+
+  /* PHOTO BANNER */
+  .photo-banner{position:relative;height:440px;overflow:hidden;}
+  .photo-banner img{width:100%;height:100%;object-fit:cover;object-position:center 30%;}
+  .photo-banner::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(15,37,29,0.15) 0%, rgba(15,37,29,0.05) 40%, rgba(15,37,29,0.75) 100%);
+  }
+  .photo-banner-mark{
+    position:absolute;left:32px;top:24px;z-index:2;
+    display:flex;align-items:center;gap:8px;
+    color:var(--parchment);
+  }
+  .photo-banner-mark span{font-family:var(--font-display);font-size:17px;font-weight:600;}
+  .photo-banner-caption{
+    position:absolute;left:32px;right:32px;bottom:24px;z-index:2;
+    color:var(--parchment);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;
+  }
+  .photo-banner-caption h3{font-size:22px;margin-bottom:4px;}
+  .photo-banner-caption p{margin:0;font-size:13px;color:rgba(247,241,227,0.8);font-family:var(--font-mono);}
+
+  /* TESTIMONIALS */
+  .testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:860px){.testimonial-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:var(--parchment);
+    border:1px solid rgba(38,32,26,0.1);
+    border-radius:14px;
+    padding:26px;
+    position:relative;
+  }
+  .testimonial-card .quote-mark{font-family:var(--font-display);font-size:44px;color:var(--honey);line-height:1;margin-bottom:6px;}
+  .testimonial-card p.quote{font-size:15px;color:var(--ink);margin:0 0 18px;}
+  .testimonial-card .who{display:flex;align-items:center;gap:10px;}
+  .testimonial-card .avatar{width:34px;height:34px;border-radius:50%;background:var(--moss);color:var(--parchment);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;}
+  .testimonial-card .who-name{font-size:13px;font-weight:600;}
+  .testimonial-card .who-trip{font-size:12px;color:var(--ink-soft);}
+
+  /* MEET TITA */
+  .tita-block{display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:center;}
+  @media (max-width:760px){.tita-block{grid-template-columns:1fr;}}
+  .frame{
+    background:var(--parchment-2);
+    border:1px solid rgba(38,32,26,0.12);
+    border-radius:16px;
+    padding:18px;
+    transform:rotate(-2deg);
+  }
+  .frame-inner{
+    background:var(--moss);
+    border-radius:10px;
+    aspect-ratio:4/5;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .frame figcaption{font-family:var(--font-mono);font-size:12px;text-align:center;margin-top:12px;color:var(--ink-soft);}
+  .tita-copy h2{font-size:30px;margin-bottom:6px;}
+  .tita-copy .role{font-family:var(--font-mono);font-size:13px;color:var(--rosewood-dark);margin-bottom:18px;display:block;}
+  .tita-copy p{color:var(--ink-soft);margin-bottom:18px;max-width:520px;}
+  .credentials{display:flex;gap:28px;flex-wrap:wrap;margin-top:12px;}
+  .credentials div{font-family:var(--font-display);font-size:22px;font-weight:600;}
+  .credentials span{display:block;font-family:var(--font-body);font-size:12px;color:var(--ink-soft);font-weight:400;}
+
+  /* GUIDES GRID */
+  .guides-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:860px){.guides-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.guides-grid{grid-template-columns:1fr;}}
+  .postcard{
+    background:var(--parchment-2);
+    border:1px solid rgba(38,32,26,0.1);
+    border-radius:14px;
+    padding:22px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .postcard:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(27,59,47,0.12);}
+  .postcard .icon{width:40px;height:40px;margin-bottom:16px;color:var(--moss-dark);}
+  .postcard h3{font-size:19px;margin-bottom:8px;}
+  .postcard p{font-size:14px;color:var(--ink-soft);margin:0 0 14px;}
+  .postcard .tag{font-family:var(--font-mono);font-size:11px;color:var(--rosewood-dark);}
+
+  /* ITINERARIES / PAYWALL */
+  .itin-band{background:var(--pine-dark);color:var(--parchment);}
+  .itin-band .eyebrow{color:var(--honey);}
+  .itin-band .section-head p{color:rgba(247,241,227,0.75);}
+  .itin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  @media (max-width:760px){.itin-grid{grid-template-columns:1fr;}}
+  .itin-card{
+    position:relative;
+    background:rgba(247,241,227,0.06);
+    border:1px solid rgba(247,241,227,0.14);
+    border-radius:14px;
+    padding:24px;
+    overflow:hidden;
+  }
+  .itin-card .price-sticker{
+    position:absolute;top:18px;right:18px;
+    background:var(--honey);color:var(--pine-dark);
+    font-family:var(--font-mono);font-weight:700;font-size:14px;
+    padding:6px 12px;border-radius:100px;transform:rotate(6deg);
+  }
+  .itin-card h3{font-size:18px;max-width:78%;margin-bottom:10px;}
+  .itin-preview{
+    filter:blur(3px);
+    opacity:0.55;
+    font-size:13px;
+    line-height:1.6;
+    color:rgba(247,241,227,0.8);
+    margin-bottom:18px;
+    user-select:none;
+  }
+  .lock-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .lock-note{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(247,241,227,0.6);font-family:var(--font-mono);}
+
+  /* CONSULTING */
+  .consult-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+  @media (max-width:800px){.consult-grid{grid-template-columns:1fr;}}
+  .consult-copy p{color:var(--ink-soft);margin-bottom:16px;max-width:460px;}
+  .consult-list{list-style:none;padding:0;margin:0 0 24px;}
+  .consult-list li{display:flex;gap:10px;font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
+  .consult-list li::before{content:"—";color:var(--rosewood);}
+  .pricing-card{background:var(--parchment-2);border:1px solid rgba(38,32,26,0.1);border-radius:14px;padding:26px;}
+  .price-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(38,32,26,0.1);}
+  .price-row:last-of-type{border-bottom:none;}
+  .price-row h4{font-family:var(--font-body);font-size:15px;font-weight:600;margin:0 0 4px;}
+  .price-row p{font-size:13px;color:var(--ink-soft);margin:0;}
+  .price-row .amt{font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--rosewood-dark);white-space:nowrap;margin-left:16px;}
+
+  /* GROUP FORM */
+  .form-band{background:var(--parchment-2);}
+  .form-shell{
+    background:var(--parchment);
+    border:1px solid rgba(38,32,26,0.12);
+    border-radius:16px;
+    padding:40px;
+    max-width:640px;margin:0 auto;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  @media (max-width:560px){.form-row{grid-template-columns:1fr;}}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  input,select,textarea{
+    width:100%;
+    font-family:var(--font-body);font-size:14px;
+    padding:11px 13px;
+    border:1px solid rgba(38,32,26,0.2);
+    border-radius:8px;
+    background:#fff;
+    color:var(--ink);
+  }
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--moss);outline-offset:1px;}
+  .full{grid-column:1/-1;margin-bottom:16px;}
+  .form-note{font-size:12px;color:var(--ink-soft);margin-top:14px;}
+
+  /* NEWSLETTER */
+  .news-band{background:var(--pine);color:var(--parchment);text-align:center;}
+  .news-band h2{font-size:clamp(24px,3.5vw,32px);margin-bottom:14px;}
+  .news-band p{color:rgba(247,241,227,0.75);max-width:480px;margin:0 auto 28px;}
+  .news-form{display:flex;justify-content:center;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;}
+  .news-form input{flex:1;min-width:200px;border-radius:100px;padding:13px 18px;}
+  .news-form button{border-radius:100px;}
+
+  footer{background:var(--pine-dark);color:rgba(247,241,227,0.7);padding:48px 0 28px;}
+  .foot-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+  .foot-brand{display:flex;align-items:center;gap:10px;color:var(--parchment);}
+  .foot-brand span{font-family:var(--font-display);font-size:18px;font-weight:600;}
+  .foot-links{display:flex;gap:24px;font-size:13px;flex-wrap:wrap;}
+  .foot-links a{text-decoration:none;}
+  .foot-bottom{margin-top:36px;padding-top:20px;border-top:1px solid rgba(247,241,227,0.12);font-size:12px;font-family:var(--font-mono);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M14 40c0-13 9-22 20-22 9 0 15 5 18 12l6-3 1 8-7 2c0 12-9 18-19 18-11 0-19-6-19-15z" fill="var(--moss)"/>
+        <path d="M20 24 L28 12 L32 24 M28 20 L36 10 L38 22 M36 20 L44 12 L45 22" stroke="var(--pine-dark)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="18" cy="34" r="2.4" fill="var(--pine-dark)"/>
+        <rect x="30" y="18" width="10" height="12" rx="3" fill="var(--rosewood)"/>
+      </svg>
+      <span>Tita Travels</span>
+    </a>
+    <div class="nav-links">
+      <a href="#guides">Guides</a>
+      <a href="#itineraries">Itineraries</a>
+      <a href="#consulting">Consulting</a>
+      <a href="#join">Join a group</a>
+      <a href="#newsletter">Contact</a>
+    </div>
+    <a class="btn btn-dark" href="#itineraries" style="padding:9px 18px;font-size:13px;">Browse guides</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="stamp">VANCOUVER, BC · EST. 2013</div>
+      <h1>Come, anak — <em>let Tita show you the coast.</em></h1>
+      <p class="lead">Twelve years living in Vancouver, one very good hiking pack, and all the spots that never made it into the guidebooks. This is the Pacific Northwest, the way Tita Preesy actually sees it.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-honey" href="#itineraries">See the itineraries</a>
+        <a class="btn btn-ghost" href="#consulting">Book a chat with Tita</a>
+      </div>
+      <div class="hero-stats">
+        <div>12<span>years in Vancouver</span></div>
+        <div>60+<span>trails logged</span></div>
+        <div>200+<span>travellers guided</span></div>
+      </div>
+    </div>
+    <div class="map-panel">
+      <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrated map of Tita's Pacific Northwest route from Vancouver Island to Whistler, with a hedgehog walking the trail">
+        <path class="route-dash" d="M60 340 C110 320, 90 260, 140 250 S 210 190, 200 150 S 250 90, 260 50"
+              fill="none" stroke="#D6A24A" stroke-width="3" stroke-linecap="round"/>
+        <g>
+          <circle cx="60" cy="340" r="6" fill="#D6A24A"/>
+          <text x="74" y="345" fill="#F7F1E3" font-family="Space Mono, monospace" font-size="12">Tofino</text>
+        </g>
+        <g>
+          <circle cx="140" cy="250" r="6" fill="#D6A24A"/>
+          <text x="154" y="255" fill="#F7F1E3" font-family="Space Mono, monospace" font-size="12">Vancouver</text>
+        </g>
+        <g>
+          <circle cx="200" cy="150" r="6" fill="#D6A24A"/>
+          <text x="214" y="155" fill="#F7F1E3" font-family="Space Mono, monospace" font-size="12">Squamish</text>
+        </g>
+        <g>
+          <circle cx="260" cy="50" r="6" fill="#D6A24A"/>
+          <text x="274" y="55" fill="#F7F1E3" font-family="Space Mono, monospace" font-size="12">Whistler</text>
+        </g>
+        <g class="hedgehog-walk" transform="translate(178,232)">
+          <ellipse cx="0" cy="10" rx="20" ry="13" fill="#B5615A"/>
+          <path d="M-16 -2 L-24 -16 L-10 -8 M-8 -6 L-14 -20 L2 -12 M0 -8 L-4 -22 L12 -12 M8 -6 L6 -20 L20 -8"
+                stroke="#7C3F3A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <circle cx="-18" cy="8" r="3.5" fill="#F7F1E3"/>
+          <circle cx="-19" cy="7.4" r="1.4" fill="#0F251D"/>
+          <rect x="2" y="-6" width="12" height="14" rx="3" fill="#496145"/>
+          <line x1="-4" y1="20" x2="-8" y2="26" stroke="#7C3F3A" stroke-width="3" stroke-linecap="round"/>
+          <line x1="6" y1="21" x2="6" y2="27" stroke="#7C3F3A" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="photo-banner">
+  <img src="tita-victoria.jpg" alt="Preesy pointing to the CAN sign at Victoria's Inner Harbour at dusk, with a group of travellers behind her">
+  <div class="photo-banner-mark">
+    <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M14 40c0-13 9-22 20-22 9 0 15 5 18 12l6-3 1 8-7 2c0 12-9 18-19 18-11 0-19-6-19-15z" fill="var(--honey)"/>
+      <path d="M20 24 L28 12 L32 24 M28 20 L36 10 L38 22 M36 20 L44 12 L45 22" stroke="var(--pine-dark)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Tita Travels</span>
+  </div>
+  <div class="photo-banner-caption">
+    <div>
+      <h3>Victoria's Inner Harbour, first night of the trip</h3>
+      <p>ONE OF TITA'S GROUPS · SEPTEMBER</p>
+    </div>
+  </div>
+</div>
+
+<section id="testimonials" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What travellers say</span>
+      <h2>Real trips, real groups</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote">What a well organized trip! We love Tita!</p>
+        <div class="who">
+          <div class="avatar">A</div>
+          <div>
+            <div class="who-name">Alexa</div>
+            <div class="who-trip">Vancouver Island group tour</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote">She knew every shortcut and every place to eat. Felt like travelling with family.</p>
+        <div class="who">
+          <div class="avatar">J</div>
+          <div>
+            <div class="who-name">Jordan</div>
+            <div class="who-trip">Whistler weekend</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote">Booked the itinerary two days before flying and it saved the whole trip.</p>
+        <div class="who">
+          <div class="avatar">M</div>
+          <div>
+            <div class="who-name">Mika</div>
+            <div class="who-trip">Tofino, 5-day itinerary</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="meet-tita">
+  <div class="wrap tita-block">
+    <figure class="frame">
+      <div class="frame-inner">
+        <svg viewBox="0 0 200 250" width="100%" aria-label="Illustrated portrait frame for Tita Preesy">
+          <rect width="200" height="250" fill="#6E8F63"/>
+          <circle cx="100" cy="95" r="46" fill="#F7F1E3"/>
+          <path d="M60 92c0-24 18-40 40-40s40 16 40 40" fill="#26201A"/>
+          <rect x="70" y="150" width="60" height="70" rx="14" fill="#D6A24A"/>
+          <circle cx="150" cy="200" r="16" fill="#B5615A"/>
+          <path d="M136 194 L144 184 L152 194 M144 190 L152 180 L158 190" stroke="#7C3F3A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <figcaption>PREESY · VANCOUVER, BC</figcaption>
+    </figure>
+    <div class="tita-copy">
+      <span class="role">MEET YOUR TITA</span>
+      <h2>Kumusta, I'm Preesy.</h2>
+      <p>I moved to Vancouver twelve years ago with two suitcases and a list of mountains I wanted to climb. Since then I've hiked most of the Sea-to-Sky corridor, eaten my way through every night market from Richmond to Steveston, and figured out exactly which Tofino beach doesn't need a reservation.</p>
+      <p>Tita Travels is everything I wish someone had told me on day one — no fluff, no sponsored content, just the routes I'd actually send to family.</p>
+      <div class="credentials">
+        <div>12<span>years local</span></div>
+        <div>6<span>PNW regions covered</span></div>
+        <div>4.9<span>average trip rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="guides" style="background:var(--parchment-2);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The guides</span>
+      <h2>Six ways to see the coast</h2>
+      <p>Every region gets the same treatment: the honest version, written by someone who actually drove there.</p>
+    </div>
+    <div class="guides-grid">
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
+        <h3>Vancouver city secrets</h3>
+        <p>The neighbourhoods locals actually eat in, and the coffee shop lines worth standing in.</p>
+        <span class="tag">14 stops</span>
+      </div>
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20l6-11 4 6 3-4 5 9H3z"/></svg>
+        <h3>Whistler &amp; Sea-to-Sky</h3>
+        <p>Beyond the gondola: where to hike, soak, and eat après without the tourist markup.</p>
+        <span class="tag">11 stops</span>
+      </div>
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 17c2-3 5-3 7 0s5 3 7 0 5-3 7 0M12 3v9"/></svg>
+        <h3>Vancouver Island &amp; Tofino</h3>
+        <p>Ferry times, surf spots, and the best chowder on the whole west coast.</p>
+        <span class="tag">16 stops</span>
+      </div>
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/></svg>
+        <h3>Sunshine Coast</h3>
+        <p>One ferry, one forest, and almost nobody else around.</p>
+        <span class="tag">8 stops</span>
+      </div>
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10l8-6 8 6v10M8 20v-6h8v6"/></svg>
+        <h3>Fraser Valley</h3>
+        <p>Lavender fields, farm stands, and the Sunday drive you didn't know you needed.</p>
+        <span class="tag">9 stops</span>
+      </div>
+      <div class="postcard">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3v18M6 3h9l-2 4 2 4H6"/></svg>
+        <h3>Okanagan wine country</h3>
+        <p>Yes, it's a detour east. Worth the extra three hours, I promise.</p>
+        <span class="tag">10 stops</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="itineraries" class="itin-band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cheap itineraries</span>
+      <h2>Full routes, unlocked for less than a coffee</h2>
+      <p>Day-by-day plans with timing, bookings, and backup options if it rains — because it will.</p>
+    </div>
+    <div class="itin-grid">
+      <div class="itin-card">
+        <div class="price-sticker">$7</div>
+        <h3>3 days, Vancouver like a local</h3>
+        <p class="itin-preview">Day 1 starts at the seawall before the crowds, then a detour through Chinatown for the bakery Tita actually recommends. Day 2 heads up to Cypress for the view without the ski crowd...</p>
+        <div class="lock-row">
+          <span class="lock-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> Locked</span>
+          <a class="btn btn-honey" href="#" style="padding:8px 16px;font-size:13px;">Unlock itinerary</a>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="price-sticker">$9</div>
+        <h3>Whistler on a weekend budget</h3>
+        <p class="itin-preview">Skip the village prices — where to park for free, which lake actually has parking on a Saturday, and the one après spot locals still go to...</p>
+        <div class="lock-row">
+          <span class="lock-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> Locked</span>
+          <a class="btn btn-honey" href="#" style="padding:8px 16px;font-size:13px;">Unlock itinerary</a>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="price-sticker">$12</div>
+        <h3>Tofino surf &amp; chill, 5 days</h3>
+        <p class="itin-preview">Ferry timing, board rental spots that don't overcharge tourists, and the exact tide chart for the beach walk everyone photographs...</p>
+        <div class="lock-row">
+          <span class="lock-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> Locked</span>
+          <a class="btn btn-honey" href="#" style="padding:8px 16px;font-size:13px;">Unlock itinerary</a>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="price-sticker">$8</div>
+        <h3>Sea-to-Sky road trip, no car regrets</h3>
+        <p class="itin-preview">Every pull-off worth stopping at between Vancouver and Whistler, plus which ones to skip when you're short on time...</p>
+        <div class="lock-row">
+          <span class="lock-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg> Locked</span>
+          <a class="btn btn-honey" href="#" style="padding:8px 16px;font-size:13px;">Unlock itinerary</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="consulting">
+  <div class="wrap consult-grid">
+    <div class="consult-copy">
+      <span class="eyebrow">Consulting</span>
+      <h2 style="margin:10px 0 18px;font-size:30px;">Plan it together, over video</h2>
+      <p>Sometimes you just need someone who's actually been there to look at your dates and tell you what's realistic. Book a call and Tita builds the route with you, live.</p>
+      <ul class="consult-list">
+        <li>A day-by-day plan matched to your dates and pace</li>
+        <li>Honest calls on what to skip, not just what to add</li>
+        <li>Booking links and backup plans for bad weather days</li>
+        <li>A written recap sent after the call</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="price-row">
+        <div>
+          <h4>Quick chat</h4>
+          <p>30 minutes · one region, one question</p>
+        </div>
+        <div class="amt">$25</div>
+      </div>
+      <div class="price-row">
+        <div>
+          <h4>Full itinerary session</h4>
+          <p>60 minutes · full trip built together</p>
+        </div>
+        <div class="amt">$45</div>
+      </div>
+      <div class="price-row">
+        <div>
+          <h4>Group trip planning</h4>
+          <p>60 minutes · up to 6 travellers</p>
+        </div>
+        <div class="amt">$65</div>
+      </div>
+      <a class="btn btn-dark" href="#join" style="width:100%;justify-content:center;margin-top:14px;">Book a session</a>
+    </div>
+  </div>
+</section>
+
+<section class="form-band" id="join">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Group tours</span>
+      <h2>Reserve a spot in the next group walk</h2>
+      <p>A few times a month Tita leads small group hikes and city walks. Groups stay small on purpose — usually eight people, never more than twelve.</p>
+    </div>
+    <form class="form-shell" onsubmit="event.preventDefault();">
+      <div class="form-row">
+        <div>
+          <label for="name">Full name</label>
+          <input id="name" type="text" placeholder="Your name" required>
+        </div>
+        <div>
+          <label for="email-join">Email</label>
+          <input id="email-join" type="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="region">Preferred region</label>
+          <select id="region">
+            <option>Vancouver city walk</option>
+            <option>Whistler &amp; Sea-to-Sky</option>
+            <option>Vancouver Island &amp; Tofino</option>
+            <option>Sunshine Coast</option>
+          </select>
+        </div>
+        <div>
+          <label for="group-size">Group size</label>
+          <input id="group-size" type="number" min="1" max="12" placeholder="e.g. 2">
+        </div>
+      </div>
+      <div class="full">
+        <label for="notes">Anything Tita should know</label>
+        <textarea id="notes" rows="3" placeholder="Dates you're flexible on, dietary needs, hiking level..."></textarea>
+      </div>
+      <button class="btn btn-honey" type="submit" style="width:100%;justify-content:center;">Request a spot</button>
+      <p class="form-note">Tita replies personally within two days — no bots, no auto-sequences.</p>
+    </form>
+  </div>
+</section>
+
+<section class="news-band" id="newsletter">
+  <div class="wrap">
+    <h2>Get the next itinerary before it's unlocked</h2>
+    <p>One short email a month. New guides, quiet-season tips, and the odd hedgehog sighting.</p>
+    <form class="news-form" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="you@email.com" required>
+      <button class="btn btn-honey" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M14 40c0-13 9-22 20-22 9 0 15 5 18 12l6-3 1 8-7 2c0 12-9 18-19 18-11 0-19-6-19-15z" fill="var(--moss)"/>
+          <path d="M20 24 L28 12 L32 24 M28 20 L36 10 L38 22 M36 20 L44 12 L45 22" stroke="var(--pine-dark)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>Tita Travels</span>
+      </div>
+      <div class="foot-links">
+        <a href="#guides">Guides</a>
+        <a href="#itineraries">Itineraries</a>
+        <a href="#consulting">Consulting</a>
+        <a href="#join">Join a group</a>
+        <a href="mailto:hello@titatravels.com">hello@titatravels.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>VANCOUVER, BC — EST. 2013</span>
+      <span>SNEAK PEEK · MORE COMING SOON</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
